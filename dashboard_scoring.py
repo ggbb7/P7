@@ -55,7 +55,8 @@ def f_cal_mean_std(df,feature):
 # Fonction de lecture des ID Clients
 def get_clients():
 
-    url       = 'http://127.0.0.1:5000/clients'
+    #url       = 'http://127.0.0.1:5000/clients'
+    url      = 'https://credit-scoring-p7-gb.com/clients'
     response  = requests.get(url)
     data_json = response.json()
     df        = pd.read_json(data_json,orient='index')
@@ -67,7 +68,8 @@ def get_prediction(id_client):
     'id_client : SK_ID_CURR' 
 
     #url = 'https://home-credit-risk.herokuapp.com/predict'
-    url      = 'http://127.0.0.1:5000/predict'
+    #url      = 'http://127.0.0.1:5000/predict'
+    url      = 'https://credit-scoring-p7-gb.com/predict'
     response = requests.get(url+'?id_client='+str(id_client))
     #st.markdown('**'+response.json()+'**')
     prob_default = round(float(response.json()),2)
@@ -78,8 +80,8 @@ def get_prediction(id_client):
 def get_explain_instance(idx_client):
     'idx_client : index du client'
 
-    #url = 'https://home-credit-risk.herokuapp.com/predict'
-    url      = 'http://127.0.0.1:5000/explain'
+    #url      = 'http://127.0.0.1:5000/explain'
+    url      = 'https://credit-scoring-p7-gb.com/explain'
     response = requests.get(url+'?idx_client='+str(idx_client))
     if response.status_code==204:
         url      = 'http://127.0.0.1:5000/get_pdf/exp_html.pdf'    
@@ -91,7 +93,8 @@ def get_explain_instance(idx_client):
 # Fonction de calcul de l'importance des Features basé sur les coeff du modele de Regression Logistique ici
 def get_feature_importance():
 
-    url       = 'http://127.0.0.1:5000/feature_importance'
+    #url       = 'http://127.0.0.1:5000/feature_importance'
+    url      = 'https://credit-scoring-p7-gb.com/feature_importance'
     response  = requests.get(url)
     data_json = response.json()
     df         = pd.read_json(data_json,orient='index')
