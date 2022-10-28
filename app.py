@@ -217,7 +217,11 @@ def explain():
     #     fr.close()
 
     #pdfkit.from_url('https://www.google.co.in/','shaurya.pdf')
-    pdfkit.from_file('exp_html.html','./pdf_files/exp_html.pdf')
+
+    # sur heroku on ne cree pas de repertoire pdf_files 
+    #pdfkit.from_file('exp_html.html','./pdf_files/exp_html.pdf')
+    pdfkit.from_file('exp_html.html','exp_html.pdf')
+
     #pdf=PdfReader('exp_html.pdf')
 
     #headers = {'Content-Type': 'text/html'}
