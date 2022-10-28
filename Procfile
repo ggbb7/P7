@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run dashboard_scoring.py
+web: gunicorn app:app
