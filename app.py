@@ -204,7 +204,7 @@ def explain():
     print('args = ',args)
     print('args[idx_client] = ',args['idx_client'])
    
-    idx_client=args0.getlist('idx_client')
+    idx_client=args0.get('idx_client')
     #idx_client = request.args.get('idx_client')
     #idx_client = request.view_args.get('idx_client')
     
