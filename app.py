@@ -23,7 +23,8 @@ from sklearn.neighbors import NearestNeighbors
 
 app = Flask(__name__)
 
-app.config["CLIENT_PDF"] = "./pdf_files"
+#app.config["CLIENT_PDF"] = "./pdf_files"
+app.config["CLIENT_PDF"] = "/tmp"
 
 ############################################################
 # Chargement des Data + Model + Explainer + Encoder One-Hot 
@@ -220,7 +221,7 @@ def explain():
     # create with commit message
     #f = repository.create_file(filename, "create_file via PyGithub", content)
 
-    with open("exp_html.html", "w") as fo:
+    with open("/tmp/exp_html.html", "w") as fo:
          fo.write(exp_html)
 
     ###with open("exp_html.html", "r") as fr:
@@ -231,7 +232,7 @@ def explain():
 
     # sur heroku on ne cree pas de repertoire pdf_files 
     #pdfkit.from_file('exp_html.html','./pdf_files/exp_html.pdf')
-    pdfkit.from_file('exp_html.html','exp_html.pdf')
+    pdfkit.from_file('/tmp/exp_html.html','/tmp/exp_html.pdf')
 
     #pdf=PdfReader('exp_html.pdf')
 
