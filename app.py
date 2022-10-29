@@ -7,6 +7,7 @@ the results in JSON format.
 
 # Import libraries
 import numpy as np
+from github import Github
 from flask import Flask, request, jsonify, Response
 from flask import make_response, render_template
 from flask import render_template_string
@@ -209,8 +210,17 @@ def explain():
     exp      = explainer.explain_instance(df_train.loc[[idx_client]].values[0],predict_fn,num_features=20,top_labels=1)
     exp_html = exp.as_html()
 
-    with open("exp_html.html", "w") as fo:
-         fo.write(exp_html)
+
+    github = Github('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')
+    repository = github.get_user().get_repo('P7')
+    # path in the repository
+    filename = 'exp_html.html'
+    content = exp_html 
+    # create with commit message
+    f = repository.create_file(filename, "create_file via PyGithub", content)
+
+    ## with open("exp_html.html", "w") as fo:
+    ##     fo.write(exp_html)
 
     #with open("exp_html.html", "r") as fr:
     #     exp_html_str = fr.read()
@@ -220,7 +230,7 @@ def explain():
 
     # sur heroku on ne cree pas de repertoire pdf_files 
     #pdfkit.from_file('exp_html.html','./pdf_files/exp_html.pdf')
-    pdfkit.from_file('exp_html.html','exp_html.pdf')
+    #pdfkit.from_file('exp_html.html','exp_html.pdf')
 
     #pdf=PdfReader('exp_html.pdf')
 
