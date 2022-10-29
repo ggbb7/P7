@@ -24,7 +24,6 @@ from sklearn.neighbors import NearestNeighbors
 app = Flask(__name__)
 
 #app.config["CLIENT_PDF"] = "./pdf_files"
-#app.config["CLIENT_PDF"] = "/tmp"
 app.config["CLIENT_PDF"] = "/tmp"
 
 ############################################################
