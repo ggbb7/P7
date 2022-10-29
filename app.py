@@ -202,7 +202,7 @@ def explain():
     print('request.args = ', request.args)
     args = request.args
     print('args = ',args)
-    print('args[id_client] = ',args['id_client'])
+    print('args[idx_client] = ',args['idx_client'])
    
     idx_client=args['idx_client']
     #idx_client = request.args.get('idx_client')
@@ -219,26 +219,26 @@ def explain():
     exp_html = exp.as_html()
 
 
-    github = Github('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')
-    repository = github.get_user().get_repo('P7')
+    #github = Github('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')
+    #repository = github.get_user().get_repo('P7')
     # path in the repository
-    filename = 'exp_html.html'
-    content = exp_html 
+    #filename = 'exp_html.html'
+    #content = exp_html 
     # create with commit message
-    f = repository.create_file(filename, "create_file via PyGithub", content)
+    #f = repository.create_file(filename, "create_file via PyGithub", content)
 
     ## with open("exp_html.html", "w") as fo:
     ##     fo.write(exp_html)
 
-    #with open("exp_html.html", "r") as fr:
-    #     exp_html_str = fr.read()
-    #     fr.close()
+    with open("exp_html.html", "r") as fr:
+         exp_html_str = fr.read()
+         fr.close()
 
     #pdfkit.from_url('https://www.google.co.in/','shaurya.pdf')
 
     # sur heroku on ne cree pas de repertoire pdf_files 
     #pdfkit.from_file('exp_html.html','./pdf_files/exp_html.pdf')
-    #pdfkit.from_file('exp_html.html','exp_html.pdf')
+    pdfkit.from_file('exp_html.html','exp_html.pdf')
 
     #pdf=PdfReader('exp_html.pdf')
 
