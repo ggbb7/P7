@@ -221,8 +221,12 @@ def explain():
     # create with commit message
     #f = repository.create_file(filename, "create_file via PyGithub", content)
 
-    with open("/tmp/exp_html.html", "w") as fo:
-         fo.write(exp_html)
+    try:
+      with open("/tmp/exp_html.html", "w") as fo:
+           fo.write(exp_html)
+    except IOError:
+        print("Impossible d'ouvrir le ficher exp_html.html")
+	abort(404)
 
     ###with open("exp_html.html", "r") as fr:
     ###     exp_html_str = fr.read()
