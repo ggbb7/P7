@@ -200,11 +200,11 @@ def explain():
 
     print('########################')
     print('request.args = ', request.args)
-    args = request.args
+    args0 = request.args
     print('args = ',args)
     print('args[idx_client] = ',args['idx_client'])
    
-    idx_client=args['idx_client']
+    idx_client=args0.getlist('idx_client')
     #idx_client = request.args.get('idx_client')
     #idx_client = request.view_args.get('idx_client')
     
@@ -212,7 +212,7 @@ def explain():
     print('1. idx client =', idx_client)
 
     #idx_client = int(idx_client)
-    idx_client=int(args['idx_client'])
+    idx_client=int(idx_client)
     print('2. idx client =', idx_client)
 
     exp      = explainer.explain_instance(df_train.loc[[idx_client]].values[0],predict_fn,num_features=20,top_labels=1)
