@@ -1,4 +1,4 @@
-# Create API of ML model using flask
+# Creat eAPI of ML model using flask
 
 '''
 This code takes the JSON data while POST request an performs the prediction using loaded model and returns
@@ -200,12 +200,14 @@ def explain():
 
     print('########################')
     print('request.args = ', request.args)
-    idx_client = request.args.get('idx_client')
+    #idx_client = request.args.get('idx_client')
+    idx_client = request.view_args.get('idx_client')
     
     print('########################')
-    print('idx client =', idx_client)
+    print('1. idx client =', idx_client)
 
     idx_client = int(idx_client)
+    print('2. idx client =', idx_client)
 
     exp      = explainer.explain_instance(df_train.loc[[idx_client]].values[0],predict_fn,num_features=20,top_labels=1)
     exp_html = exp.as_html()
