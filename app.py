@@ -204,15 +204,10 @@ def explain():
     print('args = ',args)
    
     idx_client=args.get('idx_client')
-    #idx_client = request.args.get('idx_client')
-    #idx_client = request.view_args.get('idx_client')
+    idx_client=int(idx_client)
     
     print('########################')
     print('1. idx client =', idx_client)
-
-    #idx_client = int(idx_client)
-    idx_client=int(idx_client)
-    print('2. idx client =', idx_client)
 
     exp      = explainer.explain_instance(df_train.loc[[idx_client]].values[0],predict_fn,num_features=20,top_labels=1)
     exp_html = exp.as_html()
@@ -225,8 +220,8 @@ def explain():
     # create with commit message
     #f = repository.create_file(filename, "create_file via PyGithub", content)
 
-    ## with open("exp_html.html", "w") as fo:
-    ##     fo.write(exp_html)
+    with open("exp_html.html", "w") as fo:
+         fo.write(exp_html)
 
     ###with open("exp_html.html", "r") as fr:
     ###     exp_html_str = fr.read()
@@ -236,7 +231,7 @@ def explain():
 
     # sur heroku on ne cree pas de repertoire pdf_files 
     #pdfkit.from_file('exp_html.html','./pdf_files/exp_html.pdf')
-    ###pdfkit.from_file('exp_html.html','exp_html.pdf')
+    pdfkit.from_file('exp_html.html','exp_html.pdf')
 
     #pdf=PdfReader('exp_html.pdf')
 
