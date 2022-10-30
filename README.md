@@ -11,5 +11,3 @@ De plus, les chargés de relation client ont fait remonter le fait que les clien
 
 - Pour lancer le Dashboard : https://dashboard-credit-p7.herokuapp.com
 - L'API est déployée sur heroku : https://credit-scoring-p7-gb.herokuapp.com
-
-List of files: -api_request: File to test the connection of the API -app: Script for the API deployed on Heroku -dashboard: Script for running the dashboard -note_methodologique: Document about the methodology for the project -preprocess_model_train: Script for preprocessing the data and for training the models
