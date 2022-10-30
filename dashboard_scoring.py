@@ -11,11 +11,13 @@ import time
 
 import lime
 from lime import lime_tabular
+from github import Github
 
 import streamlit.components.v1 as components
 import matplotlib.pyplot as plt
 import dill
 from io import BytesIO
+
 import base64
 
 ######################################
@@ -83,7 +85,8 @@ def get_explain_instance(idx_client):
     url      = 'https://credit-scoring-p7-gb.herokuapp.com/explain'
     response = requests.get(url+'?idx_client='+str(idx_client))
     if response.status_code==204:
-        url      = 'http://127.0.0.1:5000/get_pdf/exp_html.pdf'    
+        #url      = 'http://127.0.0.1:5000/get_pdf/exp_html.pdf'    
+        url      = 'https://credit-scoring-p7-gb.herokuapp.com/get_pdf/exp_html.pdf'    
         response = requests.get(url)
         #st.write('status code ',response.status_code)	
 
@@ -99,6 +102,43 @@ def get_feature_importance():
     df         = pd.read_json(data_json,orient='index')
 
     return df
+
+#####################
+# Load du Dataframe Data Train
+def load_train_data():
+
+    df_train = pd.read_pickle("./f_train.pkl")
+    return df_train
+
+# Load Explainer Lime
+def load_explainer():
+
+    file_explain=open('./f_explainer.dat','rb')
+    explainer=dill.load(file_explain)
+    file_explain.close()
+
+    return explainer
+
+# Function predict_fn(x)
+def predict_fn(x):
+
+    file_scaler=open('./f_std_scaler_lime.dat','rb')
+    std_scaler=pickle.load(file_scaler)
+    file_scaler.close()
+
+    file_transformer=open('./f_transformer.pkl','rb')
+    transformer=pickle.load(file_transformer)
+    file_transformer.close()
+
+    file_model=open('./f_gil_lr.pkl','rb')
+    model = pickle.load(file_model)
+    file_model.close()
+
+    #std_scaler  = load_std_scaler()
+    #transformer = load_transformer()
+    #model       = load_model()
+
+    return model.predict_proba(std_scaler.transform(transformer.transform(x))).astype(float)
 
 #####################
 # Main
@@ -147,17 +187,37 @@ if scoring:
       st.subheader('Explication du Score')
       if st.session_state['id_client']!=id_client:
          with st.spinner('Calcul en cours...'):
-              response = get_explain_instance(idx)
+              ##response = get_explain_instance(idx)
+
+              #if response.status_code==204:
 
               # On convertit le PDF en format base64 pour pouvoir l'afficher
-              f = BytesIO(response.content)
-              base64_pdf = base64.b64encode(f.read()).decode('utf-8')
-              pdf_display = F'<embed src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf">'
+              ##f = BytesIO(response.content)
+              ##base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+              ##pdf_display = F'<embed src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf">'
+              ##st.session_state['pdf_display']=pdf_display
+
+              ## github = Github('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')
+              ## repository = github.get_user().get_repo('P7')
+              # # path in the repository
+              # filename = 'exp_html.html'
+              # #file = repository.get_contents(filename)
+              ## html_string = repository.get_contents(filename)
+              # #print(file.decoded_content.decode())
+
+              df_train = load_train_data()
+              explainer = load_explainer()
+
+              exp      = explainer.explain_instance(df_train.loc[[idx]].values[0],predict_fn,num_features=20,top_labels=1)
+              exp_html = exp.as_html()
+              st.session_state['exp_html']=exp_html
+
               st.success('Fait !')
-              st.session_state['pdf_display']=pdf_display
 
       # Affichage au format PDF de l'explication
-      st.markdown(st.session_state['pdf_display'], unsafe_allow_html=True)
+      ##st.markdown(st.session_state['pdf_display'], unsafe_allow_html=True)
+      # Display explainer HTML object
+      components.html(st.session_state['exp_html'], height=800)
 
       # Calcul de Feature importance par les coefficients du modele
       st.subheader('Global Features Importance')
