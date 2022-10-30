@@ -24,8 +24,6 @@ from sklearn.neighbors import NearestNeighbors
 app = Flask(__name__)
 
 #app.config["CLIENT_PDF"] = "./pdf_files"
-#app.config["CLIENT_PDF"] = "./pdf_files"
-
 app.config["CLIENT_PDF"] = "/tmp"
 
 ############################################################
@@ -34,20 +32,20 @@ app.config["CLIENT_PDF"] = "/tmp"
 # Load client 
 def load_client():
 
-    df_client = pd.read_csv("./idclient.csv",index_col=0)
+    df_client = pd.read_csv("./data/idclient.csv",index_col=0)
 
     return df_client.iloc[0:1000]
 
 # Load du Dataframe Data Train
 def load_train_data():
 
-    df_train = pd.read_pickle("./f_train.pkl")
+    df_train = pd.read_pickle("./model/f_train.pkl")
     return df_train
 
 # Load du Best Model GridSearchCV utilisé avec Lime
 def load_model():
 
-    file_model=open('./f_gil_lr.pkl','rb')
+    file_model=open('./model/f_gil_lr.pkl','rb')
     model = pickle.load(file_model)
     file_model.close()
 
@@ -56,7 +54,7 @@ def load_model():
 # Load du Scaler Lime
 def load_std_scaler():
 
-    file_scaler=open('./f_std_scaler_lime.dat','rb')
+    file_scaler=open('./model/f_std_scaler_lime.dat','rb')
     std_scaler=pickle.load(file_scaler)
     file_scaler.close()
 
@@ -65,7 +63,7 @@ def load_std_scaler():
 # Load Transformer One-Hot Encoder
 def load_transformer():
 
-    file_transformer=open('./f_transformer.pkl','rb')
+    file_transformer=open('./model/f_transformer.pkl','rb')
     transformer=pickle.load(file_transformer)
     file_transformer.close()
 
@@ -74,7 +72,7 @@ def load_transformer():
 # Load Explainer Lime
 def load_explainer():
 
-    file_explain=open('./f_explainer.dat','rb')
+    file_explain=open('./model/f_explainer.dat','rb')
     explainer=dill.load(file_explain)
     file_explain.close()
 
@@ -83,7 +81,7 @@ def load_explainer():
 # Load Feature Importance Logistic Regression
 def load_feature_imp():
 
-    file_feat_imp=open('./f_feature_imp_lr.dat','rb')
+    file_feat_imp=open('./model/f_feature_imp_lr.dat','rb')
     feat_imp=pickle.load(file_feat_imp)
 
     return feat_imp
