@@ -39,7 +39,7 @@ def load_client():
 # Load du Dataframe Data Train
 def load_train_data():
 
-    df_train = pd.read_pickle("./model/f_train.pkl")
+    df_train = pd.read_pickle("./data/f_train.pkl")
     return df_train
 
 # Load du Best Model GridSearchCV utilisé avec Lime
@@ -147,7 +147,7 @@ def predict():
     transformer = load_transformer()
     model       = load_model()
 
-    df_train = load_train_data()
+    df_train  = load_train_data()
     df_client = load_client()
 
     args = request.args
