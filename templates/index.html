@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+<head>
+    <title>NLP explainer</title>
+</head>
+<body>
+    {% if exp %}
+        <h1 align="center">LIME-explained results</h1>
+        <div class="container">
+            {{ exp|safe }}
+        </div>
+    {% endif %}
+</body>
+</html>

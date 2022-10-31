@@ -189,6 +189,31 @@ def feature_importance():
 
     return jsonify(data_json)
 
+# Fonction de calcul de l'explicabilité d'un client
+@app.route("/explain2")
+def explain2():
+    """
+    explain an instance with Lime
+    """
+    df_train = load_train_data()
+    explainer = load_explainer()
+
+    print('########################')
+    print('request.args = ', request.args)
+    args = request.args
+    print('args = ',args)
+  
+    idx_client=args.get('idx_client')
+    idx_client=int(idx_client)
+   
+    print('########################')
+    print('1. idx client =', idx_client)
+
+    exp      = explainer.explain_instance(df_train.loc[[idx_client]].values[0],predict_fn,num_features=20,top_labels=1)
+    exp_html = exp.as_html()
+
+    return render_template('index.html', exp=exp_html)
+
 
 # Fonction de calcul de l'explicabilité d'un client
 @app.route("/explain")
